@@ -8,11 +8,6 @@ import streamifier from 'streamifier';
 dotenv.config();
 
 const prisma = new PrismaClient();
-const app = express();
-
-// Multer setup (store file in memory, not disk)
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
 
 // Upload image buffer to Cloudinary
 const uploadImage = (fileBuffer: Buffer): Promise<any> => {
@@ -55,11 +50,3 @@ export const UploadImage = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Upload failed', error });
   }
 };
-
-// Route
-app.post('/upload', upload.single('image'), UploadImage);
-
-// Start server
-app.listen(3000, () => {
-  console.log('🚀 Server running at http://localhost:3000');
-});
